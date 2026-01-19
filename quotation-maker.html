@@ -1,0 +1,1449 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spaceframe - Professional Quotation Maker</title>
+    
+    <!-- PDF Generation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    
+    <style>
+        /* SPACEFRAME PROFESSIONAL BLACK & WHITE STYLING */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 2px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        /* Header with Spaceframe Branding */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 4px solid #000000;
+        }
+        
+        .logo-container {
+            margin-bottom: 15px;
+        }
+        
+        .logo-text {
+            font-size: 42px;
+            font-weight: 900;
+            color: #000000;
+            letter-spacing: 8px;
+            font-family: 'Arial Black', sans-serif;
+        }
+        
+        .tagline {
+            font-size: 12px;
+            color: #666666;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+        
+        h1 {
+            color: #000000;
+            font-size: 24px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-top: 20px;
+        }
+        
+        .subtitle {
+            color: #666666;
+            font-size: 13px;
+            margin-top: 10px;
+            letter-spacing: 1px;
+        }
+        
+        /* Section Styling */
+        .section {
+            margin-bottom: 35px;
+            padding: 30px;
+            background: #fafafa;
+            border: 1px solid #e0e0e0;
+            border-left: 4px solid #000000;
+        }
+        
+        .section-title {
+            font-size: 14px;
+            color: #000000;
+            margin-bottom: 25px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #000000;
+        }
+        
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333333;
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #dddddd;
+            background: #ffffff;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #000000;
+            background: #fafafa;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        small {
+            color: #999999;
+            font-size: 11px;
+            display: block;
+            margin-top: 6px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .form-row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+        
+        /* Button Styling */
+        button {
+            background-color: #000000;
+            color: #ffffff;
+            padding: 16px 32px;
+            border: none;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        button:hover {
+            background-color: #333333;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-secondary {
+            background-color: #666666;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #555555;
+        }
+        
+        .btn-success {
+            background-color: #000000;
+            padding: 18px 40px;
+            font-size: 14px;
+        }
+        
+        .btn-danger {
+            background-color: #999999;
+            padding: 10px 18px;
+            font-size: 11px;
+        }
+        
+        .btn-danger:hover {
+            background-color: #000000;
+        }
+        
+        /* Table Styling */
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+            background: #ffffff;
+            border: 2px solid #000000;
+        }
+        
+        .items-table th {
+            background-color: #000000;
+            color: #ffffff;
+            padding: 16px 12px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .items-table td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 13px;
+            color: #333333;
+        }
+        
+        .items-table tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .total-row {
+            font-weight: 700;
+            font-size: 14px;
+            background-color: #f0f0f0 !important;
+            border-top: 2px solid #000000;
+        }
+        
+        .grand-total-row {
+            font-weight: 900;
+            font-size: 16px;
+            background-color: #000000 !important;
+            color: #ffffff !important;
+        }
+        
+        .grand-total-row td {
+            color: #ffffff !important;
+            padding: 18px 12px;
+        }
+        
+        .item-controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            align-items: flex-end;
+        }
+        
+        .item-controls > * {
+            flex: 1;
+        }
+        
+        .item-controls button {
+            padding: 14px 24px;
+        }
+        
+        /* Messages */
+        .loading, .error, .success {
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-left: 4px solid;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+        }
+        
+        .loading {
+            background-color: #f0f0f0;
+            border-color: #666666;
+            color: #333333;
+        }
+        
+        .error {
+            background-color: #ffe6e6;
+            border-color: #cc0000;
+            color: #cc0000;
+        }
+        
+        .success {
+            background-color: #e6ffe6;
+            border-color: #006600;
+            color: #006600;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+            justify-content: center;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .form-row, .form-row-3 {
+                grid-template-columns: 1fr;
+            }
+            
+            .item-controls {
+                flex-direction: column;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Spaceframe Header -->
+        <div class="header">
+            <div class="logo-container">
+                <div class="logo-text">SPACEFRAME</div>
+                <div class="tagline">Architecture & Design</div>
+            </div>
+            <h1>Quotation Maker</h1>
+            <p class="subtitle">Professional BOQ Generation System</p>
+        </div>
+        
+        <!-- Setup Section -->
+        <div class="section">
+            <div class="section-title">⚙ System Configuration</div>
+            <div class="form-group">
+                <label>Google Sheet ID:</label>
+                <input type="text" id="sheetId" placeholder="Enter your Google Sheet ID" value="1MRhSpp9Nuj4OTqdZjRsNylXWGEFushMNsCzwQiPA9v0">
+                <small>Find this in your Google Sheet URL between /d/ and /edit</small>
+            </div>
+            <button onclick="loadSheetData()">Connect to Database</button>
+            <div id="loadingMessage"></div>
+        </div>
+        
+        <!-- Quotation Details -->
+        <div class="section" id="quoteSection" style="display: none;">
+            <div class="section-title">📄 Quotation Details</div>
+            <div class="form-row-3">
+                <div class="form-group">
+                    <label>PID (Project ID): *</label>
+                    <input type="text" id="pid" placeholder="e.g., 1303" required>
+                </div>
+                <div class="form-group">
+                    <label>Quotation Date: *</label>
+                    <input type="date" id="quoteDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Valid Till (Days):</label>
+                    <input type="number" id="validDays" value="30" min="1">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Prepared By: *</label>
+                <input type="text" id="preparedBy" placeholder="e.g., Ar. Lakshay Arora" required>
+            </div>
+        </div>
+        
+        <!-- Client Information -->
+        <div class="section" id="clientSection" style="display: none;">
+            <div class="section-title">👤 Client Information</div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Client Name: *</label>
+                    <input type="text" id="clientName" placeholder="Enter client/company name" required>
+                </div>
+                <div class="form-group">
+                    <label>Project Name:</label>
+                    <input type="text" id="projectName" placeholder="Enter project name">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Site Address:</label>
+                <textarea id="siteAddress" placeholder="Enter complete site address"></textarea>
+            </div>
+        </div>
+        
+        <!-- Items Selection -->
+        <div class="section" id="itemsSection" style="display: none;">
+            <div class="section-title">📦 Bill of Quantities (BOQ)</div>
+            
+            <div class="item-controls">
+                <div class="form-group">
+                    <label>Super Category:</label>
+                    <select id="categoryFilter" onchange="filterByCategory()">
+                        <option value="">-- Select Super Category --</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Category Type:</label>
+                    <select id="subCategoryFilter" onchange="filterBySubCategory()">
+                        <option value="">-- Select Category Type --</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Item (SKU):</label>
+                    <select id="itemSelect">
+                        <option value="">-- Select Item --</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Quantity:</label>
+                    <input type="number" id="quantity" placeholder="Qty" min="0.01" step="0.01">
+                </div>
+                
+                <div class="form-group">
+                    <label>&nbsp;</label>
+                    <button onclick="addItem()">Add Item</button>
+                </div>
+            </div>
+            
+            <!-- Selected Items Table -->
+            <table class="items-table" id="selectedItemsTable" style="display: none;">
+                <thead>
+                    <tr>
+                        <th style="width: 5%;">Sr.</th>
+                        <th style="width: 15%;">Category</th>
+                        <th style="width: 35%;">Item Details</th>
+                        <th style="width: 8%;">Unit</th>
+                        <th style="width: 8%;">Qty</th>
+                        <th style="width: 12%;">Rate (₹)</th>
+                        <th style="width: 12%;">Amount (₹)</th>
+                        <th style="width: 5%;">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="selectedItemsBody">
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="6" style="text-align: right; font-weight: 700;">Subtotal:</td>
+                        <td id="subtotal" style="font-weight: 700;">₹0.00</td>
+                        <td></td>
+                    </tr>
+                    <tr class="total-row">
+                        <td colspan="6" style="text-align: right; font-weight: 700;">GST (18%):</td>
+                        <td id="gstAmount" style="font-weight: 700;">₹0.00</td>
+                        <td></td>
+                    </tr>
+                    <tr class="grand-total-row">
+                        <td colspan="6" style="text-align: right;">GRAND TOTAL:</td>
+                        <td id="grandTotal">₹0.00</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        
+        <!-- Generate PDF Section -->
+        <div class="button-group" id="pdfSection" style="display: none;">
+            <button class="btn-success" onclick="generatePDF()">📄 Download Quotation PDF</button>
+            <button class="btn-secondary" onclick="resetForm()">🔄 New Quotation</button>
+        </div>
+    </div>
+
+    <script>
+        // ===== SPACEFRAME QUOTATION SYSTEM =====
+        // Global Variables
+        let allItems = [];
+        let companyDetails = {};
+        let termsConditions = [];
+        let selectedItems = [];
+        
+        // ===== LOAD DATA FROM GOOGLE SHEETS =====
+        async function loadSheetData() {
+            const sheetId = document.getElementById('sheetId').value.trim();
+            
+            if (!sheetId) {
+                showMessage('Please enter your Google Sheet ID', 'error');
+                return;
+            }
+            
+            showMessage('Connecting to database...', 'loading');
+            
+            try {
+                // Try loading items first
+                await loadItems(sheetId);
+                
+                // Try loading company details (optional)
+                try {
+                    await loadCompanyDetails(sheetId);
+                } catch (e) {
+                    console.log('Company Details sheet not found - using defaults');
+                    setDefaultCompanyDetails();
+                }
+                
+                // Try loading terms (optional)
+                try {
+                    await loadTermsConditions(sheetId);
+                } catch (e) {
+                    console.log('Terms & Conditions sheet not found');
+                }
+                
+                showMessage(`✓ Connected successfully! Loaded ${allItems.length} items from your database.`, 'success');
+                
+                document.getElementById('quoteSection').style.display = 'block';
+                document.getElementById('clientSection').style.display = 'block';
+                document.getElementById('itemsSection').style.display = 'block';
+                
+                document.getElementById('quoteDate').valueAsDate = new Date();
+                
+                populateCategories();
+                
+            } catch (error) {
+                console.error('Connection error:', error);
+                
+                // Provide specific error messages
+                let errorMessage = 'Connection failed. ';
+                
+                if (error.message.includes('HTTP error')) {
+                    errorMessage += 'Cannot access the sheet. Please check: (1) Sheet ID is correct, (2) Sheet is set to "Anyone with the link" can view.';
+                } else if (error.message.includes('No items found')) {
+                    errorMessage += 'Sheet is accessible but no items found. Check that your "Items" sheet has data rows below the header.';
+                } else if (error.message.includes('JSON')) {
+                    errorMessage += 'Sheet format issue. Make sure the sheet is published and has the correct structure.';
+                } else {
+                    errorMessage += 'Please verify: (1) Sheet ID is correct (no extra spaces), (2) Sheet sharing is set to "Anyone with the link", (3) Sheet name is exactly "Items".';
+                }
+                
+                showMessage(errorMessage, 'error');
+            }
+        }
+        
+        function setDefaultCompanyDetails() {
+            companyDetails = {
+                'Company Name': 'Spaceframe',
+                'Address': '2nd floor, iWorkk, 90, Mehrauli-Gurgaon Rd, Industrial Development Area, Sector 16, Gurugram, Haryana 122007',
+                'Phone': '+91 9953520512',
+                'Email': 'lakshay.arora@spaceframe.co.in',
+                'GST Number': '06DINPA6810A1ZS'
+            };
+        }
+        
+        async function loadItems(sheetId) {
+            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=Items`;
+            
+            console.log('=== DIAGNOSTIC INFO ===');
+            console.log('Attempting to fetch from:', url);
+            
+            try {
+                const response = await fetch(url);
+                
+                console.log('Response status:', response.status);
+                console.log('Response OK?', response.ok);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const text = await response.text();
+                console.log('Raw response length:', text.length);
+                console.log('First 200 characters:', text.substring(0, 200));
+                
+                // Parse the JSONP response
+                const jsonString = text.substring(47).slice(0, -2);
+                const json = JSON.parse(jsonString);
+                
+                console.log('Parsed JSON structure:', {
+                    hasTable: !!json.table,
+                    rowCount: json.table?.rows?.length || 0,
+                    colCount: json.table?.cols?.length || 0
+                });
+                
+                if (json.table?.cols) {
+                    console.log('Column headers:', json.table.cols.map(col => col.label || col.id));
+                }
+                
+                const rows = json.table.rows;
+                
+                if (!rows || rows.length === 0) {
+                    console.error('No rows found in response');
+                    throw new Error('No data rows found in sheet');
+                }
+                
+                console.log('First row data sample:', rows[0]?.c?.map(cell => cell?.v));
+                
+                // Map your sheet structure
+                allItems = rows.map((row, index) => {
+                    // Check if row has data
+                    if (!row.c || row.c.length === 0) return null;
+                    
+                    return {
+                        sno: row.c[0]?.v || (index + 1),
+                        superCategory: row.c[1]?.v || '',
+                        categoryType: row.c[2]?.v || '',
+                        subCategory: row.c[3]?.v || '',
+                        brand: row.c[4]?.v || '',
+                        skuName: row.c[5]?.v || '',
+                        description: row.c[6]?.v || '',
+                        unit: row.c[7]?.v || '',
+                        minimumQty: row.c[8]?.v || '',
+                        rate: parseFloat(row.c[9]?.v || 0),
+                        gst: 18
+                    };
+                }).filter(item => item && item.skuName && item.rate > 0);
+                
+                console.log(`✓ Successfully loaded ${allItems.length} valid items`);
+                console.log('Sample item:', allItems[0]);
+                console.log('=== END DIAGNOSTIC ===');
+                
+                if (allItems.length === 0) {
+                    throw new Error('No valid items found (items need SKU Name and Rate)');
+                }
+                
+            } catch (error) {
+                console.error('=== ERROR DETAILS ===');
+                console.error('Error type:', error.name);
+                console.error('Error message:', error.message);
+                console.error('Full error:', error);
+                console.error('=== END ERROR ===');
+                throw error;
+            }
+        }
+        
+        async function loadCompanyDetails(sheetId) {
+            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=Company_Details`;
+            const response = await fetch(url);
+            const text = await response.text();
+            const json = JSON.parse(text.substr(47).slice(0, -2));
+            
+            const rows = json.table.rows;
+            rows.forEach(row => {
+                const field = row.c[0]?.v;
+                const value = row.c[1]?.v;
+                if (field) {
+                    companyDetails[field] = value;
+                }
+            });
+        }
+        
+        async function loadTermsConditions(sheetId) {
+            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=Terms_Conditions`;
+            const response = await fetch(url);
+            const text = await response.text();
+            const json = JSON.parse(text.substr(47).slice(0, -2));
+            
+            const rows = json.table.rows;
+            termsConditions = rows.map(row => row.c[1]?.v || '');
+        }
+        
+        // ===== DROPDOWN POPULATION =====
+        function populateCategories() {
+            const categoryFilter = document.getElementById('categoryFilter');
+            const categories = [...new Set(allItems.map(item => item.superCategory))].filter(Boolean);
+            
+            categoryFilter.innerHTML = '<option value="">-- Select Super Category --</option>';
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                categoryFilter.appendChild(option);
+            });
+        }
+        
+        function filterByCategory() {
+            const superCategory = document.getElementById('categoryFilter').value;
+            const subCategoryFilter = document.getElementById('subCategoryFilter');
+            const itemSelect = document.getElementById('itemSelect');
+            
+            subCategoryFilter.innerHTML = '<option value="">-- Select Category Type --</option>';
+            itemSelect.innerHTML = '<option value="">-- Select Item --</option>';
+            
+            if (!superCategory) return;
+            
+            // Get unique Category Types for selected Super Category
+            const categoryTypes = [...new Set(
+                allItems
+                    .filter(item => item.superCategory === superCategory)
+                    .map(item => item.categoryType)
+            )].filter(Boolean);
+            
+            categoryTypes.forEach(catType => {
+                const option = document.createElement('option');
+                option.value = catType;
+                option.textContent = catType;
+                subCategoryFilter.appendChild(option);
+            });
+        }
+        
+        function filterBySubCategory() {
+            const superCategory = document.getElementById('categoryFilter').value;
+            const categoryType = document.getElementById('subCategoryFilter').value;
+            const itemSelect = document.getElementById('itemSelect');
+            
+            itemSelect.innerHTML = '<option value="">-- Select Item --</option>';
+            
+            if (!categoryType) return;
+            
+            const filteredItems = allItems.filter(item => 
+                item.superCategory === superCategory && item.categoryType === categoryType
+            );
+            
+            filteredItems.forEach((item, index) => {
+                const option = document.createElement('option');
+                option.value = allItems.indexOf(item); // Use original index
+                const displayText = item.brand ? 
+                    `${item.skuName} - ${item.brand} (₹${item.rate}/${item.unit})` :
+                    `${item.skuName} (₹${item.rate}/${item.unit})`;
+                option.textContent = displayText;
+                option.dataset.item = JSON.stringify(item);
+                itemSelect.appendChild(option);
+            });
+        }
+        
+        // ===== ADD ITEMS TO QUOTATION =====
+        function addItem() {
+            const itemSelect = document.getElementById('itemSelect');
+            const quantity = parseFloat(document.getElementById('quantity').value);
+            
+            if (!itemSelect.value) {
+                alert('Please select an item');
+                return;
+            }
+            
+            if (!quantity || quantity <= 0) {
+                alert('Please enter a valid quantity');
+                return;
+            }
+            
+            const selectedOption = itemSelect.options[itemSelect.selectedIndex];
+            const item = JSON.parse(selectedOption.dataset.item);
+            
+            selectedItems.push({
+                ...item,
+                quantity: quantity,
+                amount: item.rate * quantity
+            });
+            
+            updateItemsTable();
+            document.getElementById('quantity').value = '';
+            document.getElementById('pdfSection').style.display = 'flex';
+        }
+        
+        function updateItemsTable() {
+            const table = document.getElementById('selectedItemsTable');
+            const tbody = document.getElementById('selectedItemsBody');
+            
+            tbody.innerHTML = '';
+            
+            let subtotal = 0;
+            let totalGST = 0;
+            
+            selectedItems.forEach((item, index) => {
+                const row = tbody.insertRow();
+                const itemGST = (item.amount * item.gst) / 100;
+                
+                const itemDisplay = item.brand ? `${item.skuName} (${item.brand})` : item.skuName;
+                
+                row.innerHTML = `
+                    <td style="text-align: center;">${index + 1}</td>
+                    <td><strong>${item.superCategory}</strong><br><small style="color: #666;">${item.categoryType}</small></td>
+                    <td>${itemDisplay}<br><small style="color: #666;">${item.description || ''}</small></td>
+                    <td>${item.unit}</td>
+                    <td style="text-align: center;">${item.quantity}</td>
+                    <td style="text-align: right;">₹${item.rate.toFixed(2)}</td>
+                    <td style="text-align: right;"><strong>₹${item.amount.toFixed(2)}</strong></td>
+                    <td style="text-align: center;"><button class="btn-danger" onclick="removeItem(${index})">Remove</button></td>
+                `;
+                
+                subtotal += item.amount;
+                totalGST += itemGST;
+            });
+            
+            const grandTotal = subtotal + totalGST;
+            
+            document.getElementById('subtotal').textContent = `₹${subtotal.toFixed(2)}`;
+            document.getElementById('gstAmount').textContent = `₹${totalGST.toFixed(2)}`;
+            document.getElementById('grandTotal').textContent = `₹${grandTotal.toFixed(2)}`;
+            
+            table.style.display = selectedItems.length > 0 ? 'table' : 'none';
+        }
+        
+        function removeItem(index) {
+            selectedItems.splice(index, 1);
+            updateItemsTable();
+            
+            if (selectedItems.length === 0) {
+                document.getElementById('pdfSection').style.display = 'none';
+            }
+        }
+        
+        // ===== GENERATE PDF USING PRINT =====
+        function generatePDF() {
+            const pid = document.getElementById('pid').value.trim();
+            const clientName = document.getElementById('clientName').value.trim();
+            const preparedBy = document.getElementById('preparedBy').value.trim();
+            const quoteDate = document.getElementById('quoteDate').value;
+            
+            if (!pid || !clientName || !preparedBy || !quoteDate) {
+                alert('Please fill in: PID, Client Name, Prepared By, and Quote Date');
+                return;
+            }
+            
+            if (selectedItems.length === 0) {
+                alert('Please add at least one item to the quotation');
+                return;
+            }
+            
+            const projectName = document.getElementById('projectName').value.trim();
+            const validDays = document.getElementById('validDays').value || '30';
+            
+            const subtotal = selectedItems.reduce((sum, item) => sum + item.amount, 0);
+            const totalGST = selectedItems.reduce((sum, item) => sum + (item.amount * item.gst / 100), 0);
+            const grandTotal = subtotal + totalGST;
+            
+            // Create a new window with the PDF-ready HTML
+            createPrintableQuotation(pid, clientName, quoteDate, validDays, preparedBy, grandTotal, projectName, subtotal, totalGST);
+        }
+        
+        function createPrintableQuotation(pid, clientName, quoteDate, validDays, preparedBy, grandTotal, projectName, subtotal, totalGST) {
+            // Open new window
+            const printWindow = window.open('', '_blank');
+            
+            // Generate the HTML content
+            const htmlContent = generateQuotationHTML(pid, clientName, quoteDate, validDays, preparedBy, grandTotal, projectName, subtotal, totalGST);
+            
+            // Write to new window
+            printWindow.document.write(htmlContent);
+            printWindow.document.close();
+            
+            // Auto-trigger print dialog after content loads
+            printWindow.onload = function() {
+                setTimeout(() => {
+                    printWindow.print();
+                }, 500);
+            };
+            
+            showMessage('✓ PDF preview opened! Click Print and choose "Save as PDF"', 'success');
+        }
+        
+        function generateQuotationHTML(pid, clientName, quoteDate, validDays, preparedBy, grandTotal, projectName, subtotal, totalGST) {
+            // Generate items table rows
+            let itemsHTML = '';
+            selectedItems.forEach((item, index) => {
+                const itemName = item.brand ? `${item.skuName} (${item.brand})` : item.skuName;
+                itemsHTML += `
+                    <tr>
+                        <td style="text-align: center; padding: 12px 8px;">${index + 1}</td>
+                        <td style="padding: 12px 8px;">
+                            <strong>${item.superCategory}</strong><br>
+                            <span style="color: #666; font-size: 11px;">${item.categoryType}</span>
+                        </td>
+                        <td style="padding: 12px 8px;">
+                            <strong>${itemName}</strong><br>
+                            <span style="color: #666; font-size: 11px;">${item.description || ''}</span>
+                        </td>
+                        <td style="text-align: center; padding: 12px 8px;">${item.unit}</td>
+                        <td style="text-align: center; padding: 12px 8px;">${item.quantity}</td>
+                        <td style="text-align: right; padding: 12px 8px;">₹${item.rate.toFixed(2)}</td>
+                        <td style="text-align: right; padding: 12px 8px;"><strong>₹${item.amount.toFixed(2)}</strong></td>
+                    </tr>
+                `;
+            });
+            
+            return `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Quotation - PID ${pid}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        @page {
+            size: A4 landscape;
+            margin: 0;
+        }
+        
+        body {
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        
+        .page {
+            width: 297mm;
+            height: 210mm;
+            page-break-after: always;
+            position: relative;
+        }
+        
+        /* PAGE 1 - COVER PAGE */
+        .cover-page {
+            display: flex;
+        }
+        
+        .left-panel {
+            width: 33.33%;
+            background: #000000;
+            color: #ffffff;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .logo-text {
+            font-size: 32px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .company-details {
+            font-size: 11px;
+            line-height: 1.6;
+        }
+        
+        .company-details strong {
+            display: block;
+            margin-top: 8px;
+        }
+        
+        .prepared-by {
+            font-size: 11px;
+            margin-top: 20px;
+        }
+        
+        .middle-panel {
+            width: 33.33%;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+        
+        .quotation-title {
+            font-size: 56px;
+            font-weight: bold;
+            color: #000000;
+            margin-bottom: 60px;
+        }
+        
+        .client-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #000000;
+        }
+        
+        .right-panel {
+            width: 33.33%;
+            background: #ffffff;
+            padding: 40px 30px;
+            position: relative;
+        }
+        
+        .pid-box {
+            border: 2px solid #000000;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .pid-label {
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .pid-value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .project-info {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+        
+        .total-box {
+            position: absolute;
+            bottom: 60px;
+            left: 30px;
+            right: 30px;
+            border: 1px solid #000000;
+        }
+        
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 15px;
+            background: #f5f5f5;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        
+        .gst-note {
+            text-align: center;
+            font-size: 10px;
+            color: #666;
+            margin-top: 10px;
+        }
+        
+        /* PAGE 2 - BOQ TABLE */
+        .boq-page {
+            padding: 20px;
+        }
+        
+        .boq-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .boq-table th {
+            background: #000000;
+            color: #ffffff;
+            padding: 12px 10px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: bold;
+            border: 1px solid #000000;
+        }
+        
+        .boq-table td {
+            padding: 12px 10px;
+            border: 1px solid #000000;
+            font-size: 11px;
+            vertical-align: top;
+        }
+        
+        .boq-table tbody tr {
+            background: #ffffff;
+        }
+        
+        .total-footer td {
+            background: #f5f5f5;
+            font-weight: bold;
+            padding: 10px;
+        }
+        
+        .grand-total-footer td {
+            background: #000000;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 13px;
+            padding: 12px 10px;
+        }
+        
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            
+            .page {
+                margin: 0;
+                page-break-after: always;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- PAGE 1: COVER PAGE -->
+    <div class="page cover-page">
+        <div class="left-panel">
+            <div>
+                <div class="logo-text">Spaceframe</div>
+                <div class="company-details">
+                    Mobile : +91 9953520512<br>
+                    Email : lakshay.arora@spaceframe.co.in<br>
+                    <strong>Spaceframe</strong>
+                    GST: 06DINPA6810A1ZS<br>
+                    2nd floor, iWorkk, 90, Mehrauli-Gurgaon Rd,<br>
+                    Industrial Development Area, Sector 16,<br>
+                    Gurugram, Haryana 122007
+                </div>
+            </div>
+            <div class="prepared-by">
+                Quotation Valid till ${validDays} days<br>
+                <strong>Prepared By:</strong><br>
+                ${preparedBy}
+            </div>
+        </div>
+        
+        <div class="middle-panel">
+            <div class="quotation-title">Quotation</div>
+            <div class="client-name">${clientName}</div>
+        </div>
+        
+        <div class="right-panel">
+            <div class="pid-box">
+                <div class="pid-label">PID</div>
+                <div class="pid-value">${pid}</div>
+            </div>
+            
+            <div class="project-info">
+                <strong>${projectName || clientName}</strong><br>
+                Date : ${quoteDate}
+            </div>
+            
+            <div class="total-box">
+                <div class="total-row">
+                    <span>MS Work</span>
+                    <span>₹ ${grandTotal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                </div>
+                <div class="gst-note">GST 18% extra</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- PAGE 2: BOQ TABLE -->
+    <div class="page boq-page">
+        <table class="boq-table">
+            <thead>
+                <tr>
+                    <th style="width: 5%; text-align: center;">SR.</th>
+                    <th style="width: 12%;">CATEGORY</th>
+                    <th style="width: 38%;">ITEM DETAILS</th>
+                    <th style="width: 8%; text-align: center;">UNIT</th>
+                    <th style="width: 7%; text-align: center;">QTY</th>
+                    <th style="width: 13%; text-align: right;">RATE (₹)</th>
+                    <th style="width: 15%; text-align: right;">AMOUNT (₹)</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${itemsHTML}
+            </tbody>
+            <tfoot>
+                <tr class="total-footer">
+                    <td colspan="6" style="text-align: right;">Subtotal:</td>
+                    <td style="text-align: right;">₹${subtotal.toFixed(2)}</td>
+                </tr>
+                <tr class="total-footer">
+                    <td colspan="6" style="text-align: right;">GST (18%):</td>
+                    <td style="text-align: right;">₹${totalGST.toFixed(2)}</td>
+                </tr>
+                <tr class="grand-total-footer">
+                    <td colspan="6" style="text-align: right;">GRAND TOTAL:</td>
+                    <td style="text-align: right;">₹${grandTotal.toFixed(2)}</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</body>
+</html>
+            `;
+        }
+        
+        function createCoverPage(doc, pid, clientName, quoteDate, validDays, preparedBy, grandTotal, projectName) {
+            // Page dimensions for landscape A4: 297mm x 210mm
+            const pageWidth = 297;
+            const pageHeight = 210;
+            
+            // Set professional font
+            doc.setFont("helvetica");
+            
+            // LEFT PANEL - BLACK BACKGROUND (1/3 of page)
+            doc.setFillColor(0, 0, 0);
+            doc.rect(0, 0, 99, pageHeight, 'F');
+            
+            // SPACEFRAME LOGO/TEXT (Top of left panel)
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(28);
+            doc.setFont(undefined, 'bold');
+            doc.text('Spaceframe', 50, 40, { align: 'center' });
+            
+            // Company Details (Left panel - white text)
+            doc.setFontSize(9);
+            doc.setFont(undefined, 'normal');
+            let yPos = 110;
+            doc.text('Mobile : +91 9953520512', 10, yPos);
+            yPos += 6;
+            doc.text('Email : lakshay.arora@spaceframe.co.in', 10, yPos);
+            yPos += 6;
+            doc.setFont(undefined, 'bold');
+            doc.text('Spaceframe', 10, yPos);
+            yPos += 6;
+            doc.setFont(undefined, 'normal');
+            doc.text('GST: 06DINPA6810A1ZS', 10, yPos);
+            yPos += 6;
+            doc.text('2nd floor, iWorkk, 90, Mehrauli-Gurgaon Rd,', 10, yPos, { maxWidth: 85 });
+            yPos += 6;
+            doc.text('Industrial Development Area, Sector 16,', 10, yPos, { maxWidth: 85 });
+            yPos += 6;
+            doc.text('Gurugram, Haryana 122007', 10, yPos, { maxWidth: 85 });
+            
+            // Bottom of left panel
+            doc.setFontSize(9);
+            doc.text(`Quotation Valid till ${validDays} days`, 10, 180);
+            doc.setFont(undefined, 'bold');
+            doc.text('Prepared By :', 10, 188);
+            doc.setFont(undefined, 'normal');
+            doc.text(preparedBy, 10, 195);
+            
+            // MIDDLE PANEL - WHITE WITH "QUOTATION" TEXT
+            doc.setFillColor(255, 255, 255);
+            doc.rect(99, 0, 99, pageHeight, 'F');
+            
+            // Large "Quotation" text in center
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(48);
+            doc.setFont(undefined, 'bold');
+            doc.text('Quotation', 148.5, 105, { align: 'center' });
+            
+            // Client name below
+            doc.setFontSize(16);
+            doc.setFont(undefined, 'bold');
+            doc.text(clientName, 148.5, pageHeight - 30, { align: 'center' });
+            
+            // RIGHT PANEL - WHITE BACKGROUND
+            doc.setFillColor(255, 255, 255);
+            doc.rect(198, 0, 99, pageHeight, 'F');
+            
+            // PID BOX (top right)
+            doc.setDrawColor(0, 0, 0);
+            doc.setLineWidth(0.5);
+            doc.rect(220, 20, 60, 25);
+            
+            doc.setFontSize(11);
+            doc.setFont(undefined, 'bold');
+            doc.text('PID', 250, 30, { align: 'center' });
+            
+            doc.setFontSize(20);
+            doc.text(pid, 250, 40, { align: 'center' });
+            
+            // Project and Date info (right side)
+            doc.setFontSize(11);
+            doc.setFont(undefined, 'normal');
+            doc.text(projectName || clientName, 250, 60, { align: 'center' });
+            
+            doc.setFontSize(9);
+            doc.text(`Date : ${quoteDate}`, 250, 70, { align: 'center' });
+            
+            // BOTTOM RIGHT - Total in table format
+            const tableStartY = pageHeight - 70;
+            
+            // Table header
+            doc.setFillColor(240, 240, 240);
+            doc.rect(210, tableStartY, 70, 10, 'F');
+            doc.setDrawColor(0, 0, 0);
+            doc.setLineWidth(0.3);
+            doc.rect(210, tableStartY, 70, 10);
+            
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'bold');
+            doc.setTextColor(0, 0, 0);
+            doc.text('MS Work', 215, tableStartY + 7);
+            doc.text(`₹ ${grandTotal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 275, tableStartY + 7, { align: 'right' });
+            
+            // GST note below
+            doc.setFontSize(8);
+            doc.setFont(undefined, 'normal');
+            doc.text('GST 18% extra', 245, tableStartY + 15, { align: 'center' });
+        }
+        
+        function createBOQPage(doc, subtotal, totalGST, grandTotal) {
+            // Landscape dimensions: 297mm x 210mm
+            const pageWidth = 297;
+            const margin = 10;
+            
+            // Set professional font
+            doc.setFont("helvetica");
+            
+            // Helper function to split text into lines that fit within a width
+            function splitText(text, maxWidth, fontSize) {
+                doc.setFontSize(fontSize);
+                const lines = doc.splitTextToSize(text, maxWidth);
+                return lines.join('\n');
+            }
+            
+            // Prepare table data with text split to fit
+            const tableData = selectedItems.map((item, index) => {
+                // Build item name line
+                let itemName = item.skuName || '';
+                if (item.brand) {
+                    itemName += ` (${item.brand})`;
+                }
+                
+                // Split item name if too long (max 85mm width)
+                const itemNameSplit = splitText(itemName, 85, 9);
+                
+                // Split description if too long
+                let description = item.description || '';
+                const descriptionSplit = description ? splitText(description, 85, 9) : '';
+                
+                // Combine with line break
+                const fullItemText = descriptionSplit ? 
+                    `${itemNameSplit}\n${descriptionSplit}` : 
+                    itemNameSplit;
+                
+                // Category text
+                const categoryText = `${item.superCategory}\n${item.categoryType}`;
+                
+                return [
+                    (index + 1).toString(),
+                    categoryText,
+                    fullItemText,
+                    item.unit || '',
+                    item.quantity.toString(),
+                    `₹${item.rate.toFixed(2)}`,
+                    `₹${item.amount.toFixed(2)}`
+                ];
+            });
+            
+            // Create table
+            doc.autoTable({
+                startY: 15,
+                head: [['SR.', 'CATEGORY', 'ITEM DETAILS', 'UNIT', 'QTY', 'RATE (₹)', 'AMOUNT (₹)']],
+                body: tableData,
+                foot: [
+                    ['', '', '', '', '', 'Subtotal:', `₹${subtotal.toFixed(2)}`],
+                    ['', '', '', '', '', 'GST (18%):', `₹${totalGST.toFixed(2)}`],
+                    ['', '', '', '', '', 'GRAND TOTAL:', `₹${grandTotal.toFixed(2)}`]
+                ],
+                
+                // Table settings
+                theme: 'grid',
+                tableWidth: 'auto',
+                margin: { left: margin, right: margin },
+                
+                // Header styling
+                headStyles: {
+                    fillColor: [0, 0, 0],
+                    textColor: [255, 255, 255],
+                    fontStyle: 'bold',
+                    fontSize: 9,
+                    font: 'helvetica',
+                    halign: 'left',
+                    valign: 'middle',
+                    cellPadding: 4,
+                    lineColor: [0, 0, 0],
+                    lineWidth: 0.5,
+                    minCellHeight: 12
+                },
+                
+                // Body styling
+                bodyStyles: {
+                    fillColor: [255, 255, 255],
+                    textColor: [0, 0, 0],
+                    fontSize: 9,
+                    font: 'helvetica',
+                    cellPadding: 4,
+                    lineColor: [0, 0, 0],
+                    lineWidth: 0.5,
+                    valign: 'top',
+                    overflow: 'linebreak',
+                    cellWidth: 'wrap',
+                    minCellHeight: 10
+                },
+                
+                // Footer styling
+                footStyles: {
+                    fillColor: [255, 255, 255],
+                    textColor: [0, 0, 0],
+                    fontStyle: 'bold',
+                    fontSize: 10,
+                    font: 'helvetica',
+                    halign: 'right',
+                    cellPadding: 5,
+                    lineColor: [0, 0, 0],
+                    lineWidth: 0.5
+                },
+                
+                // Column styles - fixed widths
+                columnStyles: {
+                    0: { cellWidth: 15, halign: 'center', valign: 'middle' },
+                    1: { cellWidth: 38, halign: 'left', valign: 'top' },
+                    2: { cellWidth: 95, halign: 'left', valign: 'top' },
+                    3: { cellWidth: 20, halign: 'center', valign: 'middle' },
+                    4: { cellWidth: 18, halign: 'center', valign: 'middle' },
+                    5: { cellWidth: 33, halign: 'right', valign: 'middle' },
+                    6: { cellWidth: 38, halign: 'right', valign: 'middle', fontStyle: 'bold' }
+                },
+                
+                // Row styling
+                didParseCell: function(data) {
+                    // Grand Total row - black background
+                    if (data.section === 'foot' && data.row.index === 2) {
+                        data.cell.styles.fillColor = [0, 0, 0];
+                        data.cell.styles.textColor = [255, 255, 255];
+                        data.cell.styles.fontStyle = 'bold';
+                        data.cell.styles.fontSize = 11;
+                    }
+                    
+                    // Subtotal and GST rows - light gray
+                    if (data.section === 'foot' && data.row.index < 2) {
+                        data.cell.styles.fillColor = [235, 235, 235];
+                    }
+                }
+            });
+        }
+        
+        // ===== UTILITY FUNCTIONS =====
+        function showMessage(message, type) {
+            const loadingDiv = document.getElementById('loadingMessage');
+            loadingDiv.className = type;
+            loadingDiv.textContent = message;
+            loadingDiv.style.display = 'block';
+            
+            if (type === 'success') {
+                setTimeout(() => {
+                    loadingDiv.style.display = 'none';
+                }, 5000);
+            }
+        }
+        
+        function resetForm() {
+            if (!confirm('Start new quotation? Current items will be cleared.')) {
+                return;
+            }
+            
+            selectedItems = [];
+            updateItemsTable();
+            
+            document.getElementById('pid').value = '';
+            document.getElementById('clientName').value = '';
+            document.getElementById('projectName').value = '';
+            document.getElementById('siteAddress').value = '';
+            document.getElementById('preparedBy').value = '';
+            document.getElementById('quoteDate').valueAsDate = new Date();
+            document.getElementById('validDays').value = '30';
+            document.getElementById('categoryFilter').value = '';
+            document.getElementById('subCategoryFilter').innerHTML = '<option value="">-- Select Sub-Category --</option>';
+            document.getElementById('itemSelect').innerHTML = '<option value="">-- Select Item --</option>';
+            document.getElementById('quantity').value = '';
+            
+            document.getElementById('pdfSection').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
